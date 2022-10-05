@@ -24,6 +24,7 @@ public class LogAop {
     public Object around(ProceedingJoinPoint joinPoint) throws Throwable {
         Object[] args = joinPoint.getArgs();
 
+        //[ 로그찍는거
         CodeSignature codeSignature = (CodeSignature) joinPoint.getSignature();
         String[] argNames = codeSignature.getParameterNames();
 
@@ -51,7 +52,7 @@ public class LogAop {
                 joinPoint.getSignature().getDeclaringTypeName(),
                 joinPoint.getSignature().getName(),
                 argNameString.toString(),
-                result);
+                result);//로그찍기 ]
 
 //        log.info("리턴 데이터 >> {}", result);
 
