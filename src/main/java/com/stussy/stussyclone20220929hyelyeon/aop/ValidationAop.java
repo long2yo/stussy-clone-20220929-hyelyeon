@@ -50,9 +50,11 @@ public class ValidationAop {
                 errorMap.put(error.getField(), error.getDefaultMessage());
             });
 
-            log.error("error: {}" + errorMap);
+//            log.error("error: {}" + errorMap);
+            return ResponseEntity.badRequest().body(new CMRespDto<>(-1, "유효성 검사 실패", errorMap));
         }
 
-        return null;
+            return joinPoint.proceed();
+//        return null;
     }
 }
