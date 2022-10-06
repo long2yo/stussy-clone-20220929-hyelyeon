@@ -21,7 +21,7 @@ public class User {
     private String provider;
     private int role_id;
     private Role role;
-    private LocalDateTime created;
-    private LocalDateTime updated;
+    private LocalDateTime create_date;
+    private LocalDateTime update_date;
 
 }

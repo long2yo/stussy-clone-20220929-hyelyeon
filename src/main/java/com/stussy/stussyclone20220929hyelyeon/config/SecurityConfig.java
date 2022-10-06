@@ -1,6 +1,9 @@
 package com.stussy.stussyclone20220929hyelyeon.config;
 
 
+import com.stussy.stussyclone20220929hyelyeon.service.PrincipalDetailsService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -8,7 +11,11 @@ import org.springframework.stereotype.Controller;
 
 @EnableWebSecurity//기존의 WebSecurityConfigurationAdapter 클래스를 해당 SecurityConfig로 대체하겠다.
 @Controller
+@RequiredArgsConstructor
+@Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+    private final PrincipalDetailsService principalDetailsService;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -22,7 +29,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll() //모두 접근 권한을 허용해라.
                 .and() //HttpSecurity
                 .formLogin() //폼로그인 방식으로 인증을 해라
+                .usernameParameter("email")
                 .loginPage("/account/login") //우리가 만든 로그인 페이지를 사용해라
+                .loginProcessingUrl("/account/login") //로그인 로직(PrincipalDetailsService) POST 요청
                 .defaultSuccessUrl("/index"); //
     }
 

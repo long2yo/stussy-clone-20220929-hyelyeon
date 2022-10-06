@@ -1,11 +1,12 @@
 package com.stussy.stussyclone20220929hyelyeon.aop;
 
 import com.stussy.stussyclone20220929hyelyeon.dto.CMRespDto;
+import com.stussy.stussyclone20220929hyelyeon.exception.CustomValidationException;
+import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
+import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.Around;
-import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Pointcut;
+import org.aspectj.lang.annotation.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.BeanPropertyBindingResult;
@@ -21,40 +22,63 @@ import java.util.Map;
 @Aspect
 @Component
 public class ValidationAop {
-
     @Pointcut("@annotation(com.stussy.stussyclone20220929hyelyeon.aop.annotation.ValidAspect)")
     private void pointCut() {}
 
-    @Around("pointCut()")
-    public Object around(ProceedingJoinPoint joinPoint) throws Throwable {
+//    @Around("pointCut()")
+//    private Object arround(ProceedingJoinPoint joinPoint) throws Throwable{
+//        Object[] args = joinPoint.getArgs();
+//
+//        BeanPropertyBindingResult bindingResult = null;
+//
+//        for(Object arg : args){
+//            if(arg.getClass() == BeanPropertyBindingResult.class){
+//                bindingResult = (BeanPropertyBindingResult) arg;    //BeanPropertyBindingResult 객체 찾앗다!
+//                break;
+//            }
+//        }
+
+    //    befrore는 return이 없다
+    @Before("pointCut()")
+    private void before(JoinPoint joinPoint) throws Throwable{
         Object[] args = joinPoint.getArgs();
 
         BeanPropertyBindingResult bindingResult = null;
 
-        for(Object arg : args) {
-            if (arg.getClass() == BeanPropertyBindingResult.class) {
-                bindingResult = (BeanPropertyBindingResult) arg;
+        for(Object arg : args){
+            if(arg.getClass() == BeanPropertyBindingResult.class){
+                bindingResult = (BeanPropertyBindingResult) arg;    //BeanPropertyBindingResult 객체 찾앗다!
                 break;
             }
         }
 
-        if(bindingResult == null) {
-            return joinPoint.proceed();
-        }
+//      arround 일때만 쓴다
+//        if(bindingResult == null){
+//            return joinPoint.proceed();
+//        }
 
-        if(bindingResult.hasErrors()) {
-            log.error("유효성 검사 오류 발생");
+//      AccountApi에 있는 것을 복사해서 수정
+        if(bindingResult.hasErrors()){
+//            log.error("유효성 검사 오류가 발생");
+
             Map<String, String> errorMap = new HashMap<String, String>();
 
             bindingResult.getFieldErrors().forEach(error -> {
                 errorMap.put(error.getField(), error.getDefaultMessage());
             });
 
-//            log.error("error: {}" + errorMap);
-            return ResponseEntity.badRequest().body(new CMRespDto<>(-1, "유효성 검사 실패", errorMap));
+            throw new CustomValidationException("Validation failed", errorMap);
+
+//            return ResponseEntity.badRequest().body(new CMRespDto<>(-1,"유효성 검사 실패",errorMap));
         }
 
-            return joinPoint.proceed();
-//        return null;
+//        return null; 해도 되고
+//        return joinPoint.proceed();     //이것을 기준으로 전 후 나뉜다 후는 거의 쓰지 않는다
+
     }
+    @AfterReturning(value = "pointCut()", returning = "returnObj")
+    public void afterReturn(JoinPoint joinPoint, Object returnObj) {
+        log.info("Validation success: {}", returnObj);
+    }
+
 }
