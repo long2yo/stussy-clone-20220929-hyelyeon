@@ -1,4 +1,4 @@
-package com.stussy.stussyclone20220929hyelyeon.service;
+package com.stussy.stussyclone20220929hyelyeon.service.auth;
 
 import com.stussy.stussyclone20220929hyelyeon.domain.User;
 import com.stussy.stussyclone20220929hyelyeon.repository.AccountRepository;
@@ -8,13 +8,14 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class PrincipalDetailsService implements UserDetailsService {
+
     private final AccountRepository accountRepository;
+
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         User user = accountRepository.findUserByEmail(email);
@@ -25,6 +26,6 @@ public class PrincipalDetailsService implements UserDetailsService {
         }
 //    log.info("email >> {}", email);
 
-        return null;
+        return new PrincipalDetails(user);
     }
 }
