@@ -74,7 +74,7 @@ button{
     padding: 15px 0px;
     width: 80px;
 
-    font-weight: 700;
+    font-weight: 700px;
     color: black;
     background-color: white;
     animation: button-fadeout 0.1s linear forwards;
@@ -85,6 +85,7 @@ button{
 
 button:active{
     animation: button-fadein 0.1s linear forwards;
+    color: white;
 
 }
 
