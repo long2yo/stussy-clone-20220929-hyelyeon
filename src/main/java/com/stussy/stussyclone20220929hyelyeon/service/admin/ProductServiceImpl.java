@@ -9,6 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
@@ -39,7 +40,7 @@ public class ProductServiceImpl implements ProductService{
                 }
 
                 try {
-                    File.write(uploadPath, file.getBytes());
+                    Files.write(uploadPath, file.getBytes());
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }

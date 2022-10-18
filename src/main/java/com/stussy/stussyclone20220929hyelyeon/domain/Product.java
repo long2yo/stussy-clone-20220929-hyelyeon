@@ -8,11 +8,14 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 import java.util.List;
 
+
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
+
 public class Product {
+
     private int id;
     private String category;
     private int group_id;
