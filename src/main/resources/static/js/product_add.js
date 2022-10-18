@@ -17,7 +17,7 @@ fileInput.onchange = () => {
             productImageFiles.push(value);
             changeFlge = true;
         }
-    })
+    });
     
     if(changeFlge){
         getImagePreview();
@@ -55,8 +55,6 @@ function getImagePreview() {
         }
 
         setTimeout(reader.readAsDataURL(file), i * 100);
-        
-        
     });
 }
 
@@ -76,30 +74,29 @@ submitButton.onclick = () => {
     formData.append("infoManagement", productInputs[8].value);
     formData.append("infoShipping", productInputs[9].value);
 
-
     productImageFiles.forEach((file) => {
         formData.append("files", file);
-    })
+    });
 
     request(formData);
 }
 
 function request(formData) {
-     $.ajax({
-         async: false,
-         type: "post",
-         url: "/api/admin/product",
-         enctype: "multipart/form-data",
-         contentType: false,
-         processData: false,
-         data: formData,
-         dataType: "json",
-         success: (response) => {
-             alert("상품 등록 완료");
-         },
-         error: (error) => {
-             alert("상품 등록 실패");
-             console.log(error);
-         }
-     });
- }
+    $.ajax({
+        async: false,
+        type: "post",
+        url: "/api/admin/product",
+        enctype: "multipart/form-data",
+        contentType: false,
+        processData: false,
+        data: formData,
+        dataType: "json",
+        success: (response) => {
+            alert("상품 등록 완료");
+        },
+        error: (error) => {
+            alert("상품 등록 실패");
+            console.log(error);
+        }
+    });
+}
