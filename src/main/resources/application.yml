@@ -24,5 +24,8 @@ mybatis:
   mapper-locations:
     - /mappers/*.xml
 
+file:
+  path: C:/junil/hyelyeon/springboot/stussy-clone-20220929-hyelyeon/upload/
+
 
 

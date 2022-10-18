@@ -32,12 +32,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.httpBasic().disable();
         http.authorizeRequests() //모든 요청시에 실행을 해라
                 /*<<<<<<<<<<<<<<<<<<<<<<<<<<<< Page >>>>>>>>>>>>>>>>>>>>>>>>>>>*/
-                .antMatchers("/admin/**")
-                .access("hasRole('ADMIN') or hasRole('MANAGER')")//여러 권한을 줄때 - .access("hasRole('') or hasRole")
+//                .antMatchers("/admin/**")
+//                .access("hasRole('ADMIN') or hasRole('MANAGER')")//여러 권한을 줄때 - .access("hasRole('') or hasRole")
 //                .hasRole("ADMIN")//하나의 권한을 줄때 - .hasRole("")
-                .antMatchers("account") //해당 요청 주소들은
+                .antMatchers("/account") //해당 요청 주소들은
                 .access("hasRole('USER') or hasRole(ADMIN) or hasRole('MANAGER')")
-                .antMatchers("/", "/index", "/collection/**")
+
+                .antMatchers("/", "/index", "/collections/**")
                 .permitAll()
 //                .authenticated() //인증이 필요하다.
                 .antMatchers( "/account/login", "/account/register")
