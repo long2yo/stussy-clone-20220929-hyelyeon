@@ -1,6 +1,7 @@
 package com.stussy.stussyclone20220929hyelyeon.service.admin;
 
 
+import com.stussy.stussyclone20220929hyelyeon.domain.ProductImgFile;
 import com.stussy.stussyclone20220929hyelyeon.dto.admin.ProductAdditionReqDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,6 +13,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -25,6 +27,7 @@ public class ProductServiceImpl implements ProductService{
     @Override
     public boolean addProduct(ProductAdditionReqDto productAdditionReqDto) throws Exception {
         List<MultipartFile> files = productAdditionReqDto.getFiles();
+        List<ProductImgFile> productImgFiles = new ArrayList<ProductImgFile>();
 
         if(files != null) {
             files.forEach(file -> {
@@ -44,6 +47,14 @@ public class ProductServiceImpl implements ProductService{
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
+
+                ProductImgFile productImgFile = ProductImgFile.builder()
+                        .product_id(0)
+                        .origin_name(originName)
+                        .temp_name(temp_name)
+                        .build();
+
+                productImgFiles.add(productImgFile);
 
             });
         }
