@@ -64,8 +64,13 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-aop</artifactId>
 		</dependency>
+        <dependency>
+            <groupId>com.stussy</groupId>
+            <artifactId>stussy-clone-20220929-hyelyeon</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
 
-	</dependencies>
+    </dependencies>
 
 	<build>
 		<plugins>

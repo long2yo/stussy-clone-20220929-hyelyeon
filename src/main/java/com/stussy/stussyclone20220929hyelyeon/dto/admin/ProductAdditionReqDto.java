@@ -1,5 +1,8 @@
 package com.stussy.stussyclone20220929hyelyeon.dto.admin;
 
+
+
+import com.stussy.stussyclone20220929hyelyeon.domain.Product;
 import com.stussy.stussyclone20220929hyelyeon.dto.validation.ValidationGroups;
 import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;
@@ -8,6 +11,7 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import java.util.List;
+
 
 @Data
 public class ProductAdditionReqDto {
@@ -30,4 +34,21 @@ public class ProductAdditionReqDto {
     private String infoShipping;
 
     private List<MultipartFile> files;
+
+
+    public Product toProductEntity() {
+        return Product.builder()
+                .category(category)
+                .name(name)
+                .price(price)
+                .color(color)
+                .size(size)
+                .info_simple(infoSimple)
+                .info_detail(infoDetail)
+                .info_option(infoOption)
+                .info_management(infoManagement)
+                .info_shipping(infoShipping)
+                .build();
+    }
+
 }
